@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // 使用 LoadScene 必要的引用程式
 
 public class PlayerController : MonoBehaviour {
     private Rigidbody2D _rigid2D;
@@ -18,7 +19,7 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         // 跳躍
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space) && this._rigid2D.velocity.y == 0) {
             this._rigid2D.AddForce(transform.up * this._jumpForce);
         }
 
@@ -42,10 +43,16 @@ public class PlayerController : MonoBehaviour {
 
         // 依遊戲角色的速度改變動畫的速度
         this._animator.speed = speedX / this._maxWalkSpeed;
+
+        // 跑出畫面時就回到初始畫面
+        if (transform.position.y < -10) {
+            SceneManager.LoadScene("GameScene");
+        }
     }
 
     // 抵達終點
     private void OnTriggerEnter2D(Collider2D other) {
         Debug.Log("終點");
+        SceneManager.LoadScene("ClearScene");
     }
 }
