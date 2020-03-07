@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     private float _jumpForce = 680.0f;
     private float _walkForce = 30.0f;
     private float _maxWalkSpeed = 2.0f;
+    private float _threshold = 0.2f;
 
     // Start is called before the first frame update
     void Start() {
@@ -23,10 +24,16 @@ public class PlayerController : MonoBehaviour {
             this._rigid2D.AddForce(transform.up * this._jumpForce);
         }
 
+        if (Input.GetMouseButtonDown(0) && this._rigid2D.velocity.y == 0) {
+            this._rigid2D.AddForce(transform.up * this._jumpForce);
+        }
+
         // 左右移動
         int key = 0;
         if (Input.GetKey(KeyCode.RightArrow)) key = 1;
         if (Input.GetKey(KeyCode.LeftArrow)) key = -1;
+        // if (Input.acceleration.x > this._threshold) key = 1;
+        // if (Input.acceleration.x < this._threshold) key = 1;
 
         // 遊戲角色的速度
         float speedX = Mathf.Abs(this._rigid2D.velocity.x);
