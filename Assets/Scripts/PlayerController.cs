@@ -43,4 +43,9 @@ public class PlayerController : MonoBehaviour {
         // 依遊戲角色的速度改變動畫的速度
         this._animator.speed = speedX / this._maxWalkSpeed;
     }
+
+    // 抵達終點
+    private void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("終點");
+    }
 }
