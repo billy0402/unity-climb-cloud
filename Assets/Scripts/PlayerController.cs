@@ -21,10 +21,12 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         // 跳躍
         if (Input.GetKeyDown(KeyCode.Space) && this._rigid2D.velocity.y == 0) {
+            this._animator.SetTrigger("JumpTrigger");
             this._rigid2D.AddForce(transform.up * this._jumpForce);
         }
 
         if (Input.GetMouseButtonDown(0) && this._rigid2D.velocity.y == 0) {
+            this._animator.SetTrigger("JumpTrigger");
             this._rigid2D.AddForce(transform.up * this._jumpForce);
         }
 
@@ -49,7 +51,13 @@ public class PlayerController : MonoBehaviour {
         }
 
         // 依遊戲角色的速度改變動畫的速度
-        this._animator.speed = speedX / this._maxWalkSpeed;
+        if (this._rigid2D.velocity.y == 0) {
+            this._animator.speed = speedX / this._maxWalkSpeed;
+        }
+        // 將跳躍期間的動畫速度設為 1.0
+        else {
+            this._animator.speed = 1.0f;
+        }
 
         // 跑出畫面時就回到初始畫面
         if (transform.position.y < -10) {
